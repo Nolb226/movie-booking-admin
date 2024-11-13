@@ -1,22 +1,79 @@
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
-import Link from 'next/link'
+import CinemaStatusSelect from '@/components/cinema-status-select'
+import { DataTable } from '@/components/data-table'
+import LocationSelect from '@/components/location-select'
+import AddCinemaForm from '@/components/pages/(dashboard)/cinema/add-cinema'
 
-export default function Page() {
+import { cinemaColumns } from '@/components/pages/(dashboard)/cinema/columns'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetDescription,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/components/ui/sheet'
+import { getCinemaList } from '@/service/cinema'
+import { Plus } from 'lucide-react'
+
+export default async function Page() {
+    const data = await getCinemaList()
+
     return (
-        <div className="header border-main flex items-center justify-between border-b pl-6 pr-8">
-            <div className="text-base">Cinema</div>
-            <div className="">
-                <Button
-                    className="border-main h-6 min-h-6 gap-1 rounded-[5px] border bg-[lch(12.3_3.7_272)] px-2 py-0 text-[lch(62.6%_1.35_272_/_1)]"
-                    asChild
-                >
-                    <Link className="" href={'/cinema/add'}>
-                        <Plus className="size-3" />
-                        <span className="text-sm">Add cinema</span>
-                    </Link>
-                </Button>
+        <>
+            <div className="header flex items-center justify-between border-b border-main pl-6 pr-8">
+                <div className="text-base">Cinema</div>
+                <div className="">
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button className="h-6 min-h-6 gap-1 rounded-[5px] border border-main bg-[lch(12.3_3.7_272)] px-2 py-0 text-[lch(62.6%_1.35_272_/_1)]">
+                                <Plus className="size-3" />
+                                <span className="text-sm">Add cinema</span>
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent>
+                            <SheetHeader>
+                                <SheetTitle>Add New Cinema</SheetTitle>
+                                <SheetDescription>
+                                    Write the information of the cinema you want
+                                    to add
+                                </SheetDescription>
+                            </SheetHeader>
+                            <AddCinemaForm>
+                                <Label className="flex items-center">
+                                    <span className="w-1/3 font-semibold text-black">
+                                        City
+                                    </span>
+                                    <LocationSelect className="w-2/3" />
+                                </Label>
+                                <Label className="flex items-center">
+                                    <span className="w-1/3 font-semibold text-black">
+                                        Status
+                                    </span>
+                                    <CinemaStatusSelect
+                                        name="status"
+                                        className="w-2/3"
+                                    />
+                                </Label>
+                            </AddCinemaForm>
+                            <SheetFooter className="mt-4">
+                                <SheetClose asChild>
+                                    <Button variant={'secondary'}>
+                                        Cancel
+                                    </Button>
+                                </SheetClose>
+                                <SheetClose asChild></SheetClose>
+                            </SheetFooter>
+                        </SheetContent>
+                    </Sheet>
+                </div>
             </div>
-        </div>
+            <div className="flex items-center justify-center p-4">
+                <DataTable columns={cinemaColumns} data={data} />
+            </div>
+        </>
     )
 }
