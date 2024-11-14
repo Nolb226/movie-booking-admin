@@ -14,4 +14,7 @@ export const END_POINTS = {
         ADD_MOVIE: '/movies',
         DETAIL: (id: string) => `/movies/${id}`,
     },
+    DASHBOARD: {
+        CHART: '/dashboard',
+    },
 }
