@@ -71,7 +71,7 @@ const baseFetch = <T>(
         new Promise(async (resolve, reject) => {
             try {
                 const response = await fetch(urlWithPrefix, {
-                    // cache: 'no-cache',
+                    cache: 'no-cache',
                     ...options,
                 } as RequestInit)
                 switch (response.status) {

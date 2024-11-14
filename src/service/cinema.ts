@@ -1,5 +1,5 @@
 import { END_POINTS } from '@/constants/endpoint'
-import { get } from '@/lib/api'
+import { get, post } from '@/lib/api'
 import {
     Cinema,
     CinemaDetails,
@@ -26,4 +26,10 @@ export const getCinemasStatuses = async () => {
 
 export const getSeat = (id: number) => {
     return get<HallSeatResponse>(END_POINTS.CINEMA.HALL_DETAIL(id))
+}
+
+export const postHall = (id: string, body: any) => {
+    return post(END_POINTS.CINEMA.ADD_HALL(id), {
+        body: body,
+    })
 }

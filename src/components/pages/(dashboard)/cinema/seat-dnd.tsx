@@ -2,28 +2,20 @@
 import { Seat } from '@/components/ui/seat'
 import { cn } from '@/lib/utils'
 import { useDrag, useDrop } from 'react-dnd'
+import { useSelectable } from 'react-selectable-box'
 
 interface DraggableSeatProps {
     seat: {
-        type: 1 | 2
-    }
+        type: 1 | 2 | 0
+    } | null
 }
 
 function DraggableSeat({ seat }: DraggableSeatProps) {
-    const [{ isDragging }, drag] = useDrag(
+    const [, drag] = useDrag(
         () => ({
             type: 'seat',
             item: { seat },
-            end: (item, monitor) => {
-                const dropResult = monitor.getDropResult()
-                if (item && dropResult) {
-                    console.log(
-                        `You dropped ${item.seat.type} into ${
-                            dropResult.row
-                        }, ${dropResult.col}`
-                    )
-                }
-            },
+
             collect: (monitor) => ({
                 isDragging: !!monitor.isDragging(),
             }),
@@ -36,34 +28,48 @@ function DraggableSeat({ seat }: DraggableSeatProps) {
 interface SeatDropzoneProps {
     row: number
     col: number
-    currentSeat?: { type: 1 | 2 }
+    zones: any
+    currentSeat?: { type: 1 | 2 | 0 }
     onSeatDrop: (seat: any, row: number, col: number) => void
 }
 function SeatDropzone({
     currentSeat,
     col,
     row,
+    zones,
     onSeatDrop,
 }: SeatDropzoneProps) {
-    const [{ isOver }, drop] = useDrop(() => ({
-        accept: 'seat',
-        drop: (item) => onSeatDrop(item.seat, row, col),
-        collect: (monitor) => ({
-            isOver: !!monitor.isOver(),
-            canDrop: !!monitor.canDrop(),
+    const { setNodeRef, isSelecting, isSelected } = useSelectable({
+        value: { row, col },
+    })
+
+    const [{ isOver }, drop] = useDrop(
+        () => ({
+            accept: 'seat',
+            drop: (item) => onSeatDrop(item.seat, row, col),
+            collect: (monitor) => ({
+                isOver: !!monitor.isOver(),
+                canDrop: !!monitor.canDrop(),
+            }),
         }),
-    }))
+        [zones, col, row]
+    )
 
     return (
         <div
-            className="size-7 rounded-sm"
-            style={{
-                backgroundColor: isOver ? 'rgba(255, 255, 255, 0.1)' : 'gray',
-                border: isOver ? '1px solid white' : '',
+            className={cn('size-7 rounded-sm bg-gray-800', {
+                'ring-2 ring-white': isSelecting || isSelected || isOver,
+            })}
+            ref={(node) => {
+                drop(node)
+                setNodeRef(node)
             }}
-            ref={drop}
         >
-            {currentSeat ? <Seat type={currentSeat.type} /> : null}
+            {currentSeat ? (
+                currentSeat.type !== 0 ? (
+                    <Seat type={currentSeat.type} />
+                ) : null
+            ) : null}
         </div>
     )
 }

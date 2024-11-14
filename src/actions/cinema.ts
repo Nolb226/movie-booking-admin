@@ -1,6 +1,7 @@
 'use server'
 
 import { AddCinemaSchema } from '@/lib/validations/cinema'
+import { postHall } from '@/service/cinema'
 
 // import { post } from '@/lib/api'
 
@@ -38,4 +39,12 @@ export const addCinema = (state: AddCinemaFormState, formData: FormData) => {
         }
     }
     console.log(rawData)
+}
+
+export const addHallAction = async (cinemaId: string, objData: any) => {
+    try {
+        postHall(cinemaId, objData)
+    } catch (error) {
+        console.log(error)
+    }
 }

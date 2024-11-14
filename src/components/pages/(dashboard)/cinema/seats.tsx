@@ -1,4 +1,5 @@
 'use client'
+import { Seat } from '@/components/ui/seat'
 import { cn } from '@/lib/utils'
 import { SeatRow, Seat as TSeat } from '@/model/cinema'
 import { useCallback, useMemo } from 'react'
@@ -17,7 +18,13 @@ export default function Seats({ rows, className, ...props }: SeatsProps) {
             return Array.from({ length: maxColumn }).map((_, index) => {
                 const seat = row.seats.find((seat) => seat.rowIndex === index)
                 return seat ? (
-                    <Seat key={seat.id} seat={{ ...seat }} />
+                    <Seat
+                        className="flex items-center justify-center"
+                        key={seat.id}
+                        type={seat.seatType.id}
+                    >
+                        {seat.rowIndex}
+                    </Seat>
                 ) : (
                     <div key={index} className="size-7"></div>
                 )
@@ -43,36 +50,5 @@ export default function Seats({ rows, className, ...props }: SeatsProps) {
                 )
             })}
         </div>
-    )
-}
-
-interface SeatProps extends React.HTMLAttributes<HTMLDivElement> {
-    seat: TSeat
-}
-
-function Seat({
-    className,
-    seat: { id, isReserved, rowIndex },
-    ...props
-}: SeatProps) {
-    return (
-        <label htmlFor={id + ''}>
-            <input
-                id={id + ''}
-                type="checkbox"
-                className="peer hidden"
-                disabled={isReserved}
-            />
-            <div
-                className={cn(
-                    'bg-primary-900 ring-primary-850 peer-disabled:bg-secondary-900 peer-disabled:text-secondary-850 flex size-7 cursor-pointer select-none items-center justify-center rounded-sm ring-1 ring-inset',
-                    className
-                )}
-                {...props}
-            >
-                {/* {rowName} */}
-                {rowIndex}
-            </div>
-        </label>
     )
 }

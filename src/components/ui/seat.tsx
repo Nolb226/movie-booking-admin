@@ -7,6 +7,7 @@ const seatVariants = cva(
     {
         variants: {
             type: {
+                0: 'bg-gray-800',
                 1: 'bg-primary-900 ring-primary-850',
                 2: 'ring-highlight-600 bg-yellow-800',
             },
