@@ -1,4 +1,10 @@
 export const END_POINTS = {
+    AUTH: {
+        LOGIN: '/auth/login',
+    },
+    USER: {
+        LIST: '/user/all',
+    },
     CINEMA: {
         LIST: '/cinemas',
         CITY: '/cinemas/location',
@@ -13,6 +19,8 @@ export const END_POINTS = {
         STATUS: '/movies/status',
         ADD_MOVIE: '/movies',
         DETAIL: (id: string) => `/movies/${id}`,
+        GENRES: '/genres',
+        FORMATS: '/formats',
     },
     DASHBOARD: {
         CHART: '/dashboard',

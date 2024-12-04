@@ -1,22 +1,8 @@
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
-import Link from 'next/link'
+import MovieListPage from '@/components/pages/(dashboard)/movie/movie-list-page'
+import { getMovies } from '@/service/movie'
 
-export default function Page() {
-    return (
-        <div className="header flex items-center justify-between border-b border-main pl-6 pr-8">
-            <div className="text-base">Movie</div>
-            <div className="">
-                <Button
-                    className="h-6 min-h-6 gap-1.5 rounded-[5px] border border-main bg-[lch(12.3_3.7_272)] px-2 py-0 text-[lch(62.6%_1.35_272_/_1)]"
-                    asChild
-                >
-                    <Link className="" href={'/cinema/add'}>
-                        <Plus className="size-3" />
-                        <span className="text-sm">Add Movie</span>
-                    </Link>
-                </Button>
-            </div>
-        </div>
-    )
+export default async function Page() {
+    const movies = await getMovies()
+
+    return <MovieListPage movies={movies} />
 }

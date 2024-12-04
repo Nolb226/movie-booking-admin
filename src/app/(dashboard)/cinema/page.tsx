@@ -17,7 +17,7 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet'
 import { getCinemaList } from '@/service/cinema'
-import { Plus } from 'lucide-react'
+import { ListFilterIcon, Plus } from 'lucide-react'
 
 export default async function Page() {
     const data = await getCinemaList()
@@ -29,7 +29,7 @@ export default async function Page() {
                 <div className="">
                     <Sheet>
                         <SheetTrigger asChild>
-                            <Button className="h-6 min-h-6 gap-1 rounded-[5px] border border-main bg-[lch(12.3_3.7_272)] px-2 py-0 text-[lch(62.6%_1.35_272_/_1)]">
+                            <Button className="h-6 min-h-6 gap-1 rounded-[5px] border border-main bg-[lch(12.3_3.7_272)] px-2 py-1 text-[lch(62.6%_1.35_272_/_1)]">
                                 <Plus className="size-3" />
                                 <span className="text-sm">Add cinema</span>
                             </Button>
@@ -71,7 +71,17 @@ export default async function Page() {
                     </Sheet>
                 </div>
             </div>
-            <div className="flex items-center justify-center p-4">
+            <div className="flex items-center justify-between border-b border-main px-6 py-[7px]">
+                <Button
+                    variant={'ghost'}
+                    className="flex h-fit items-center gap-2 px-2 py-1"
+                    size={'sm'}
+                >
+                    <ListFilterIcon className="size-4" />
+                    <span>Filter</span>
+                </Button>
+            </div>
+            <div className="">
                 <DataTable columns={cinemaColumns} data={data} />
             </div>
         </>

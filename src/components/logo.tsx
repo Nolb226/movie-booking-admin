@@ -1,9 +1,12 @@
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import React from 'react'
 
-function Logo() {
+interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function Logo({ className }: LogoProps) {
     return (
-        <div className="w-fit">
+        <div className={cn('w-fit', className)}>
             <Link href={'/'}>
                 <img src={'/images/logo.png'} alt="" />
                 <p className="block text-right text-lg font-medium text-blue-500">

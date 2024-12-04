@@ -24,10 +24,10 @@ export const cinemaColumns: ColumnDef<Cinema>[] = [
         accessorKey: 'address',
         header: 'Address',
     },
-    {
-        accessorKey: 'description',
-        header: 'Description',
-    },
+    // {
+    //     accessorKey: 'description',
+    //     header: 'Description',
+    // },
     {
         accessorKey: 'hotline',
         header: 'Hotline',
@@ -38,12 +38,14 @@ export const cinemaColumns: ColumnDef<Cinema>[] = [
             return (
                 <Button
                     variant="ghost"
+                    className="h-fit px-2 py-1"
+                    size={'sm'}
                     onClick={() =>
                         column.toggleSorting(column.getIsSorted() === 'asc')
                     }
                 >
                     Name
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                    <ArrowUpDown className="ml-2 size-3.5" />
                 </Button>
             )
         },

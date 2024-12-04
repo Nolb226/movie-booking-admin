@@ -21,6 +21,17 @@ body {
     .header {
         min-height: calc(var(--header-height, 57px) - 1px);
     }
+    .shadow-button {
+        box-shadow:
+            lch(0 0 0 / 0.06) 0px 4px 4px -1px,
+            lch(0 0 0 / 0.12) 0px 1px 1px 0px;
+    }
+}
+
+@layer components {
+    .field-sizing-content {
+        field-sizing: content;
+    }
 }
 
 @layer base {
