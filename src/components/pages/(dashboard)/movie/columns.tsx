@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
+import { formatDuration } from '@/lib/utils'
 export const movieColumns: ColumnDef<Movie>[] = [
     {
         accessorKey: 'id',
@@ -22,9 +23,21 @@ export const movieColumns: ColumnDef<Movie>[] = [
         accessorKey: 'name',
         header: 'Title',
     },
+    // {
+    //     accessorKey: 'poster',
+    //     header: 'Poster',
+    //     cell: ({ row }) => (
+    //         <div className="aspect-[3/2]">
+    //             <img src={row.original.poster} alt="" />
+    //         </div>
+    //     ),
+    // },
     {
         accessorKey: 'runningTime',
         header: 'Duration',
+        cell: ({ row }) => (
+            <div>{formatDuration(row.original.runningTime)}</div>
+        ),
     },
 
     {

@@ -5,6 +5,7 @@
 :root {
     --background: lch(2.467% 0 272 / 1);
     --foreground: white;
+    --fc-border-color: #333537;
 }
 
 body {

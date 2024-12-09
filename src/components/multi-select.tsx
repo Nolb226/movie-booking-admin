@@ -17,17 +17,28 @@ export type Options = Record<'value' | 'label', string>
 interface MultiSelectProps {
     options: Options[]
     defaultValue?: Options[]
+    onSelect?: (value: Options) => void
+    onUnselect?: (value: Options) => void
 }
 
-export function MultiSelect({ options, defaultValue = [] }: MultiSelectProps) {
+export function MultiSelect({
+    options,
+    defaultValue = [],
+    onSelect,
+    onUnselect,
+}: MultiSelectProps) {
     const inputRef = React.useRef<HTMLInputElement>(null)
     const [open, setOpen] = React.useState(false)
     const [selected, setSelected] = React.useState<Options[]>(defaultValue)
     const [inputValue, setInputValue] = React.useState('')
 
-    const handleUnselect = React.useCallback((options: Options) => {
-        setSelected((prev) => prev.filter((s) => s.value !== options.value))
-    }, [])
+    const handleUnselect = React.useCallback(
+        (options: Options) => {
+            setSelected((prev) => prev.filter((s) => s.value !== options.value))
+            onUnselect?.(options)
+        },
+        [onUnselect]
+    )
 
     const handleKeyDown = React.useCallback(
         (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -119,6 +130,7 @@ export function MultiSelect({ options, defaultValue = [] }: MultiSelectProps) {
                                                     ...prev,
                                                     option,
                                                 ])
+                                                onSelect?.(option)
                                             }}
                                             className={'cursor-pointer'}
                                         >

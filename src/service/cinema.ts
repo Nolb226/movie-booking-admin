@@ -6,6 +6,7 @@ import {
     CinemaStatus,
     City,
     HallSeatResponse,
+    ShowsByCinema,
 } from '@/model/cinema'
 
 export const getCinemaList = async () => {
@@ -32,4 +33,8 @@ export const postHall = (id: string, body: any) => {
     return post(END_POINTS.CINEMA.ADD_HALL(id), {
         body: body,
     })
+}
+
+export const getCinemaShows = (id: string) => {
+    return get<ShowsByCinema>(END_POINTS.CINEMA.SHOWS(id))
 }

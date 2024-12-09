@@ -1,3 +1,5 @@
+import { Movie, MovieFormat } from './movie'
+
 export type City = {
     id: string
     name: string
@@ -57,4 +59,26 @@ export type CinemaStatus = {
 
 export type HallSeatResponse = Hall & {
     rows: SeatRow[]
+}
+
+export type Show = {
+    id: string
+    runningTime: number
+    startDate: string
+    startTime: string
+    status: boolean
+    format: MovieFormat
+    movie: Movie
+}
+
+export type HallWithShow = Hall & { showtimes: Show[] }
+
+export type ShowsByCinema = {
+    id: string
+    name: string
+    address: string
+    hotline: string
+    description: string
+    location: string
+    halls: HallWithShow[]
 }

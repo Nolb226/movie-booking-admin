@@ -39,7 +39,7 @@ export function DatePicker({
                 >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {date ? (
-                        format(date, 'P', {
+                        format(date, 'yyyy-MM-dd', {
                             // locale: vi,
                         })
                     ) : (
