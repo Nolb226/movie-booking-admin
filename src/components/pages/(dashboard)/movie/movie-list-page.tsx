@@ -15,6 +15,8 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useState } from 'react'
 
 export default function MovieListPage({ movies }: { movies: Movie[] }) {
+    console.log(movies)
+
     const [status, setStatus] = useState(0)
     const filteredMovies = movies.filter((movie) =>
         status === 0 ? true : movie.status.id === status
@@ -83,7 +85,7 @@ export default function MovieListPage({ movies }: { movies: Movie[] }) {
                         className="h-6 min-h-6 gap-1.5 rounded-[5px] border border-main bg-[lch(12.3_3.7_272)] px-2 py-0 text-[lch(62.6%_1.35_272_/_1)]"
                         asChild
                     >
-                        <Link className="" href={'/cinema/add'}>
+                        <Link className="" href={'/movie/add'}>
                             <Plus className="size-3" />
                             <span>Add Movie</span>
                         </Link>

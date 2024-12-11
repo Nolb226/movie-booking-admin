@@ -11,14 +11,13 @@ const buttonVariants = cva(
             variant: {
                 default:
                     'hover:shadow-hover bg-primary-500 text-neutral-50 focus-visible:ring-white active:shadow-none disabled:bg-primary-800 disabled:text-primary-700',
-                destructive:
-                    'bg-red-500 text-neutral-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-neutral-50 dark:hover:bg-red-900/90',
+                destructive: 'bg-red-900 text-neutral-50 hover:bg-red-900/90',
                 outline:
                     'border border-neutral-800 bg-primary-950 hover:bg-neutral-800 hover:text-neutral-50',
                 secondary:
                     'bg-white/[8%] text-slate-300 shadow-inner shadow-white/[8%] hover:bg-white/[12%] hover:text-slate-100 hover:shadow-none focus-visible:ring-primary-400 active:bg-white/[8%] active:text-slate-50 disabled:bg-white/[4%] disabled:text-slate-600',
                 ghost: 'hover:bg-neutral-800 hover:text-neutral-50',
-                link: 'text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50',
+                link: 'text-neutral-50 underline-offset-4 hover:underline',
                 highlight:
                     'bg-highlight-500 text-white hover:bg-highlight-600 focus-visible:ring-white active:bg-highlight-500 disabled:bg-highlight-500 disabled:text-highlight-300',
                 showtime:

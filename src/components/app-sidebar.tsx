@@ -1,7 +1,13 @@
 'use client'
 
 import React from 'react'
-import { Clapperboard, LayoutGrid, Projector, UserSquare } from 'lucide-react'
+import {
+    Clapperboard,
+    LayoutGrid,
+    Projector,
+    Receipt,
+    UserSquare,
+} from 'lucide-react'
 
 import {
     Sidebar,
@@ -118,6 +124,17 @@ function AppSidebar() {
                                         </CollapsibleContent>
                                     </SidebarMenuItem>
                                 </Collapsible>
+                                <SidebarMenuItem>
+                                    <SidebarMenuButton
+                                        isActive={pathname === '/bill'}
+                                        asChild
+                                    >
+                                        <Link href={'/bill'}>
+                                            <Receipt className="size-4" />
+                                            <span>Bill List</span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
                             </SidebarMenu>
                         </SidebarGroupContent>
                     </SidebarGroup>

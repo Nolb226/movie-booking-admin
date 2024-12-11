@@ -23,12 +23,12 @@ function AddCinemaForm({ children }: { children: React.ReactNode }) {
                     key={'name'}
                     className="flex items-center gap-2"
                 >
-                    <span className="w-1/3 font-semibold text-black">Name</span>
+                    <span className="w-1/3 font-semibold">Name</span>
                     <Input
                         id={'name'}
                         autoComplete="off"
                         name={'name'}
-                        className="w-2/3 text-black"
+                        className="w-2/3"
                     />
                 </Label>
                 {state?.errors?.name && (
@@ -45,14 +45,12 @@ function AddCinemaForm({ children }: { children: React.ReactNode }) {
                     key={'hotline'}
                     className="flex items-center gap-2"
                 >
-                    <span className="w-1/3 font-semibold text-black">
-                        Hotline
-                    </span>
+                    <span className="w-1/3 font-semibold">Hotline</span>
                     <Input
                         id={'hotline'}
                         autoComplete="off"
                         name={'hotline'}
-                        className="w-2/3 text-black"
+                        className="w-2/3"
                     />
                 </Label>
                 {state?.errors?.hotline && (
@@ -69,14 +67,12 @@ function AddCinemaForm({ children }: { children: React.ReactNode }) {
                     key={'address'}
                     className="flex items-center gap-2"
                 >
-                    <span className="w-1/3 font-semibold text-black">
-                        Address
-                    </span>
+                    <span className="w-1/3 font-semibold">Address</span>
                     <Input
                         id={'address'}
                         autoComplete="off"
                         name={'address'}
-                        className="w-2/3 text-black"
+                        className="w-2/3"
                     />
                 </Label>
                 {state?.errors?.address && (
@@ -89,13 +85,11 @@ function AddCinemaForm({ children }: { children: React.ReactNode }) {
                     </div>
                 )}
                 <Label className="flex items-center">
-                    <span className="w-1/3 font-semibold text-black">
-                        Description
-                    </span>
+                    <span className="w-1/3 font-semibold">Description</span>
                     <Textarea
                         id="description"
                         name="description"
-                        className="w-2/3 text-black"
+                        className="w-2/3"
                     />
                 </Label>
 

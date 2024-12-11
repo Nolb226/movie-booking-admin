@@ -9,11 +9,12 @@ import {
     FormControl,
     FormField,
     FormItem,
+    FormLabel,
     FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { MovieValidation } from '@/lib/validations/movie'
-import { Movie, MovieFormat, MovieGenre } from '@/model/movie'
+import { Movie, MovieFormat, MovieGenre, UpdateMovieBody } from '@/model/movie'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -21,6 +22,14 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { format } from 'date-fns'
 import React, { useMemo } from 'react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
+import { MinimalTiptapEditor } from '@/components/minimal-tiptap'
+import { updateMovie } from '@/actions/movie'
+import { z } from 'zod'
+import { Dropzone } from '@/components/dropzone'
+import { SidebarTrigger } from '@/components/ui/sidebar'
+import { Sidebar } from 'lucide-react'
+import { objectToFormData } from '@/lib/utils'
+import { NumberInput } from '@/components/number-input'
 
 interface MovieDetailProps {
     movie: Movie
@@ -33,6 +42,7 @@ export default function MovieDetail({
     genres,
     movie,
 }: MovieDetailProps) {
+    // const [description, setDescription] = React.useState<Content>('')
     const formattedDuration = useMemo(() => {
         const now = new Date()
         const runningTime = movie.runningTime
@@ -77,20 +87,29 @@ export default function MovieDetail({
         [movie.formats]
     )
 
-    const form = useForm({
-        // resolver: zodResolver(MovieValidation),
+    const form = useForm<z.infer<typeof MovieValidation>>({
+        resolver: zodResolver(MovieValidation),
         defaultValues: {
+            subName: movie.subName,
             name: movie.name,
+            description: movie.description,
             releaseDate: movie.releaseDate,
             endDate: movie.endDate,
             trailer: movie.trailer,
             status: movie.status.id.toString(),
             language: 'USA',
-            duration: formattedDuration,
+            runningTime: formattedDuration,
             genres: defaultGenres,
             formats: defaultFormats,
+            ageRestriction: movie.ageRestriction,
+            director: movie.director,
+            horizontalPoster: movie.horizontalPoster,
+            poster: movie.poster,
+            producer: movie.producer,
         },
     })
+
+    console.log(form.formState.errors)
 
     const {
         append: appendGenres,
@@ -115,14 +134,27 @@ export default function MovieDetail({
             <form
                 className="flex h-full"
                 onSubmit={form.handleSubmit((data) => {
-                    console.log(form.formState.isDirty)
-
-                    console.log(data)
+                    const runningTime =
+                        (data.runningTime.getHours() || 12) * 60 +
+                        data.runningTime.getMinutes()
+                    const formatData = {
+                        ...movie,
+                        ...data,
+                        genres: data.genres.map((genre) => +genre.value),
+                        formats: data.formats.map((format) => +format.value),
+                        status: parseInt(data.status),
+                        runningTime,
+                    }
+                    const formData = objectToFormData(formatData)
+                    updateMovie(movie.id, formData)
                 })}
             >
                 <div className="flex flex-1 flex-col">
                     <div className="header flex h-fit items-center justify-between border-b border-main pl-6 pr-8">
                         <div className="flex items-center gap-4">
+                            <SidebarTrigger className="size-5">
+                                <Sidebar />
+                            </SidebarTrigger>
                             <div className="text-base">Movie</div>
                         </div>
                         <div className="flex gap-2">
@@ -177,23 +209,54 @@ export default function MovieDetail({
                     <div className="mx-auto flex w-[calc(100%_-7.5rem)] flex-col gap-6 rounded-md px-4 py-8">
                         <div className="flex max-h-[330px] gap-6 *:rounded-lg">
                             <div className="relative aspect-[2/3] max-w-[220px] bg-neutral-950 p-2">
-                                <span className="absolute left-2 top-2 rounded-br-md border-b border-r border-zinc-800 bg-neutral-950 pb-2 pr-2 text-xs font-semibold text-[lch(63.975_1.933_272)]">
+                                <span className="absolute left-2 top-2 z-10 rounded-br-md border-b border-r border-zinc-800 bg-neutral-950 pb-2 pr-2 text-xs font-semibold text-[lch(63.975_1.933_272)]">
                                     Poster
                                 </span>
-                                <img
+                                {/* <img
                                     src={movie.poster}
                                     className="h-full w-full rounded-md border border-zinc-800"
                                     alt=""
+                                /> */}
+
+                                <Controller
+                                    name="poster"
+                                    render={({ field }) => (
+                                        <Dropzone
+                                            onChange={(e) =>
+                                                field.onChange(
+                                                    e.target.files?.[0] ?? null
+                                                )
+                                            }
+                                            defaultImages={[movie.poster]}
+                                            className="h-full w-full rounded-md border border-zinc-800"
+                                        />
+                                    )}
                                 />
                             </div>
                             <div className="relative h-full max-w-[574px] bg-neutral-950 p-2">
-                                <span className="absolute left-2 top-2 rounded-br-md border-b border-r border-zinc-800 bg-neutral-950 pb-2 pr-2 text-xs font-semibold text-[lch(63.975_1.933_272)]">
+                                <span className="absolute left-2 top-2 z-10 rounded-br-md border-b border-r border-zinc-800 bg-neutral-950 pb-2 pr-2 text-xs font-semibold text-[lch(63.975_1.933_272)]">
                                     Banner
                                 </span>
-                                <img
-                                    className="aspect-video h-full w-full rounded-md border border-zinc-800 bg-neutral-950 object-cover"
+                                {/* <img
+                                    className=""
                                     src={movie.horizontalPoster}
                                     alt=""
+                                /> */}
+                                <Controller
+                                    name="horizontalPoster"
+                                    render={({ field }) => (
+                                        <Dropzone
+                                            onChange={(e) =>
+                                                field.onChange(
+                                                    e.target.files?.[0] ?? null
+                                                )
+                                            }
+                                            defaultImages={[
+                                                movie.horizontalPoster,
+                                            ]}
+                                            className="aspect-video h-full w-full rounded-md border border-zinc-800 bg-neutral-950 object-cover"
+                                        />
+                                    )}
                                 />
                             </div>
                             <div className="relative bg-neutral-950 p-2">
@@ -213,21 +276,60 @@ export default function MovieDetail({
                                 ></iframe>
                             </div>
                         </div>
-                        <div className="rounded-md bg-neutral-950 p-2">
+                        <div className="flex rounded-md bg-neutral-950 p-2 *:w-1/2">
                             <FormField
                                 name="name"
                                 control={form.control}
                                 render={({ field }) => (
                                     <FormItem>
+                                        <FormLabel> Name</FormLabel>
+
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                className="rounded-none border-0 border-b-2 border-gray-400 bg-transparent text-2xl focus-visible:ring-0"
+                                                // className="rounded-none border-0 border-b-2 border-gray-400 bg-transparent text-2xl focus-visible:ring-0"
                                                 // defaultValue={movie.name}
                                             />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
+                                )}
+                            />
+                            <FormField
+                                name="subName"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Sub name</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                // className="rounded-none border-0 border-b-2 border-gray-400 bg-transparent text-2xl focus-visible:ring-0"
+                                                // defaultValue={movie.name}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="">
+                            <Controller
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <MinimalTiptapEditor
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        className="w-full bg-white text-black"
+                                        editorContentClassName="p-5 prose w-full"
+                                        output="html"
+                                        immediatelyRender={false}
+                                        placeholder="Type your description here..."
+                                        autofocus={true}
+                                        editable={true}
+                                        editorClassName="focus:outline-none"
+                                    />
                                 )}
                             />
                         </div>
@@ -333,7 +435,7 @@ export default function MovieDetail({
                             Duration
                         </span>
                         <Controller
-                            name="duration"
+                            name="runningTime"
                             render={({ field }) => (
                                 <TimePicker
                                     date={field.value as Date}
@@ -342,40 +444,118 @@ export default function MovieDetail({
                             )}
                         />
                     </div>
+
+                    <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-[lch(63.975_1.933_272)]">
+                            Age
+                        </span>
+                        <FormField
+                            name="ageRestriction"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <NumberInput
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage className="text-xs" />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-[lch(63.975_1.933_272)]">
+                            Director
+                        </span>
+                        <FormField
+                            name="director"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem className="w-2/4">
+                                    <FormControl>
+                                        <Input className="" {...field} />
+                                    </FormControl>
+                                    <FormMessage className="text-xs" />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-[lch(63.975_1.933_272)]">
+                            Producers
+                        </span>
+                        <FormField
+                            name="producer"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem className="w-2/4">
+                                    <FormControl>
+                                        <Input className="" {...field} />
+                                    </FormControl>
+                                    <FormMessage className="text-xs" />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
                     <div className="">
                         <span className="text-sm font-medium text-[lch(63.975_1.933_272)]">
                             Genres
                         </span>
-                        <MultiSelect
-                            options={genreOptions}
-                            defaultValue={defaultGenres}
-                            onSelect={appendGenres}
-                            onUnselect={(unseletedOption) => {
-                                const index = fieldGenres.findIndex(
-                                    (genre) =>
-                                        genre.value === unseletedOption.value
-                                )
-                                removeGenres(index)
-                            }}
+                        <FormField
+                            name="genres"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <MultiSelect
+                                        options={genreOptions}
+                                        defaultValue={defaultGenres}
+                                        onSelect={appendGenres}
+                                        onUnselect={(unseletedOption) => {
+                                            const index = fieldGenres.findIndex(
+                                                (genre) =>
+                                                    genre.value ===
+                                                    unseletedOption.value
+                                            )
+                                            removeGenres(index)
+                                        }}
+                                    />
+
+                                    <FormMessage className="text-xs" />
+                                </FormItem>
+                            )}
                         />
                     </div>
+
                     <div className="">
                         <span className="text-sm font-medium text-[lch(63.975_1.933_272)]">
                             Format
                         </span>
-                        <MultiSelect
-                            options={formatOptions}
-                            defaultValue={defaultFormats}
-                            onSelect={appendFormats}
-                            onUnselect={(unseletedOption) => {
-                                const index = fieldFormats.findIndex(
-                                    (format) =>
-                                        format.value === unseletedOption.value
-                                )
-                                removeFormats(index)
-                            }}
+                        <FormField
+                            name="formats"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <MultiSelect
+                                        options={formatOptions}
+                                        defaultValue={defaultFormats}
+                                        onSelect={appendFormats}
+                                        onUnselect={(unseletedOption) => {
+                                            const index =
+                                                fieldFormats.findIndex(
+                                                    (format) =>
+                                                        format.value ===
+                                                        unseletedOption.value
+                                                )
+                                            removeFormats(index)
+                                        }}
+                                    />
+
+                                    <FormMessage className="text-xs" />
+                                </FormItem>
+                            )}
                         />
                     </div>
+
                     <div className="mt-auto">
                         <Button
                             disabled={!form.formState.isDirty}

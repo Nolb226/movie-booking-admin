@@ -82,3 +82,12 @@ export type ShowsByCinema = {
     location: string
     halls: HallWithShow[]
 }
+
+export type AddCinemaBody = {
+    name: string
+    location: number
+    status: number
+    address: string
+    hotline: string
+    description: string
+}

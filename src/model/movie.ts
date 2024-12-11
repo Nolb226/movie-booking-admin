@@ -1,6 +1,7 @@
 export type Movie = {
     id: string
     name: string
+    subName: string
     description: string
     runningTime: number
     poster: string
@@ -33,4 +34,23 @@ export type MovieFormat = {
     id: number
     caption: string
     version: string
+}
+
+export type UpdateMovieBody = {
+    name: string
+    subName: string
+    description: string
+    runningTime: number
+    director: string
+    producer: string
+    trailer: string
+    poster: string
+    horizontalPoster: string
+    releaseDate: string
+    endDate: string
+    ageRestriction: number
+    performers: string
+    genres: number[]
+    formats: number[]
+    status: number
 }

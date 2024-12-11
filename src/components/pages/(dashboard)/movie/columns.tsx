@@ -22,6 +22,17 @@ export const movieColumns: ColumnDef<Movie>[] = [
     {
         accessorKey: 'name',
         header: 'Title',
+        cell: ({ row }) => {
+            const movie = row.original
+            return (
+                <div className="flex items-center gap-0.5">
+                    <div className="text-sm">{movie.name}</div>
+                    <span className="self-start text-[10px] text-gray-500">
+                        {movie.subName}
+                    </span>
+                </div>
+            )
+        },
     },
     // {
     //     accessorKey: 'poster',
@@ -44,6 +55,21 @@ export const movieColumns: ColumnDef<Movie>[] = [
         accessorKey: 'releaseDate',
         header: 'Release Date',
     },
+    // {
+    //     header: 'Genre',
+    //     cell: ({ row }) => {
+    //         const movie = row.original
+    //         return (
+    //             <div>
+    //                 {movie.genres.map((genre) => (
+    //                     <Badge key={genre.id} variant="default">
+    //                         {genre.name}
+    //                     </Badge>
+    //                 ))}
+    //             </div>
+    //         )
+    //     },
+    // },
     {
         accessorKey: 'status.description',
         header: 'Status',

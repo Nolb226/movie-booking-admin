@@ -1,15 +1,7 @@
 'use server'
 import { cookies } from 'next/headers'
 import { env } from '../../env.mjs'
-
-const ContentType = {
-    json: 'application/json',
-    stream: 'text/event-stream',
-    audio: 'audio/mpeg',
-    form: 'application/x-www-form-urlencoded; charset=UTF-8',
-    download: 'application/octet-stream', // for download
-    upload: 'multipart/form-data', // for upload
-}
+import { ContentType } from '@/constants/content-type'
 
 const baseOptions = {
     method: 'GET',
@@ -44,6 +36,9 @@ const baseFetch = <T>(
     )
     const urlPrefix = env.NEXT_PUBLIC_MOVIE_API_URL
     let urlWithPrefix = `${urlPrefix}${url.startsWith('/') ? url : `/${url}`}`
+
+    const contentType = options.headers.get('Content-Type')
+    if (!contentType) options.headers.set('Content-Type', ContentType.json)
 
     const { method, params, body } = options
 

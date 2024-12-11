@@ -15,8 +15,8 @@ import { cn } from '@/lib/utils'
 async function CinemaStatusSelect({ className, ...props }: SelectTriggerProps) {
     const statuses = await getCinemasStatuses()
     return (
-        <Select name="status">
-            <SelectTrigger {...props} className={cn('text-black', className)}>
+        <Select defaultValue="1" name="status">
+            <SelectTrigger {...props} className={cn('', className)}>
                 <SelectValue placeholder="Choose a status" />
             </SelectTrigger>
 
@@ -25,7 +25,7 @@ async function CinemaStatusSelect({ className, ...props }: SelectTriggerProps) {
                     <SelectLabel>Status</SelectLabel>
                     {statuses?.map((status) => (
                         <SelectItem
-                            className="text-black"
+                            className=""
                             key={status.id}
                             value={status.id + ''}
                         >

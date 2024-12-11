@@ -6,3 +6,11 @@ export type ChartDataMonth = {
     revenues: number
     numberOfBill: number
 }
+
+export type TopMovie = {
+    id: string
+    name: string
+    poster: string
+    numberOfTickets: number
+    revenues: number
+}

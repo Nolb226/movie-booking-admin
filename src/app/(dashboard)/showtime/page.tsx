@@ -1,7 +1,9 @@
 import CinemaShow from '@/components/pages/(dashboard)/showtime/cinema-show'
 import { getCinemaList } from '@/service/cinema'
+import { getMovies } from '@/service/movie'
 
 export default async function Page() {
     const cinemas = await getCinemaList()
-    return <CinemaShow cinemas={cinemas} />
+    const movies = await getMovies()
+    return <CinemaShow movies={movies} cinemas={cinemas} />
 }

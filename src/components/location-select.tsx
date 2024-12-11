@@ -15,8 +15,8 @@ import { cn } from '@/lib/utils'
 async function LocationSelect({ className, ...props }: SelectTriggerProps) {
     const city = await getCity()
     return (
-        <Select name="location">
-            <SelectTrigger {...props} className={cn('text-black', className)}>
+        <Select defaultValue="1" name="location">
+            <SelectTrigger {...props} className={cn('', className)}>
                 <SelectValue placeholder="City" />
             </SelectTrigger>
 
@@ -25,7 +25,7 @@ async function LocationSelect({ className, ...props }: SelectTriggerProps) {
                     <SelectLabel>City</SelectLabel>
                     {city.map((city) => (
                         <SelectItem
-                            className="text-black"
+                            className=""
                             key={city.slug}
                             value={city.id + ''}
                         >

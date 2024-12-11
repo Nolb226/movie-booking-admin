@@ -1,7 +1,9 @@
 'use server'
 
 import { AddCinemaSchema } from '@/lib/validations/cinema'
-import { postHall } from '@/service/cinema'
+import { AddCinemaBody } from '@/model/cinema'
+import { postCinema, postHall } from '@/service/cinema'
+import { redirect } from 'next/navigation'
 
 // import { post } from '@/lib/api'
 
@@ -19,12 +21,15 @@ export type AddCinemaFormState =
       }
     | undefined
 
-export const addCinema = (state: AddCinemaFormState, formData: FormData) => {
+export const addCinema = async (
+    state: AddCinemaFormState,
+    formData: FormData
+) => {
     const rawData = {
         name: formData.get('name'),
         location: formData.get('location'),
-        status: formData.get('status'),
-        address: formData.get('address'),
+        status: formData.get('status')!,
+        address: formData.get('address')!,
         hotline: formData.get('hotline'),
         description: formData.get('description'),
     }
@@ -38,7 +43,19 @@ export const addCinema = (state: AddCinemaFormState, formData: FormData) => {
             errors: validatedFields.error.flatten().fieldErrors,
         }
     }
-    console.log(rawData)
+    let id
+    try {
+        const data = await postCinema({
+            ...validatedFields.data,
+            status: +validatedFields.data.status,
+            location: +validatedFields.data.location,
+        })
+        id = data
+    } catch (error) {
+        console.log(error)
+    }
+
+    if (id) redirect(`/cinema/${id}`)
 }
 
 export const addHallAction = async (cinemaId: string, objData: any) => {
@@ -47,4 +64,5 @@ export const addHallAction = async (cinemaId: string, objData: any) => {
     } catch (error) {
         console.log(error)
     }
+    redirect(`/cinema/${cinemaId}`)
 }

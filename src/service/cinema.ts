@@ -1,6 +1,7 @@
 import { END_POINTS } from '@/constants/endpoint'
 import { get, post } from '@/lib/api'
 import {
+    AddCinemaBody,
     Cinema,
     CinemaDetails,
     CinemaStatus,
@@ -33,6 +34,16 @@ export const postHall = (id: string, body: any) => {
     return post(END_POINTS.CINEMA.ADD_HALL(id), {
         body: body,
     })
+}
+
+export const postCinema = (data: AddCinemaBody) => {
+    try {
+        return post(END_POINTS.CINEMA.LIST, {
+            body: data,
+        })
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const getCinemaShows = (id: string) => {

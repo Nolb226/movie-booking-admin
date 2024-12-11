@@ -4,6 +4,8 @@ export const END_POINTS = {
     },
     USER: {
         LIST: '/user/all',
+        DETAIL: (id: string) => `/user/${id}`,
+        BILL: (id: string) => `/bills/user/${id}/`,
     },
     CINEMA: {
         LIST: '/cinemas',
@@ -25,5 +27,9 @@ export const END_POINTS = {
     },
     DASHBOARD: {
         CHART: '/dashboard',
+        TOP_MOVIES: '/dashboard/movie',
+    },
+    BILL: {
+        LIST: '/bills',
     },
 }

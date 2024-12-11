@@ -12,21 +12,39 @@ import {
 import { Cinema, HallWithShow, ShowsByCinema } from '@/model/cinema'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { Sidebar } from 'lucide-react'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Calendar } from '@/components/ui/calendar'
 import useSWR from 'swr'
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog'
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card'
+
 import { getCinemaShows } from '@/service/cinema'
-import { EventSourceInput } from '@fullcalendar/core/index.js'
+import { Movie } from '@/model/movie'
 
 interface CinemaShowProps {
     cinemas: Cinema[]
+    movies: Movie[]
 }
 
-export default function CinemaShow({ cinemas }: CinemaShowProps) {
-    const [isOpen, setIsOpen] = useState<'open' | 'close'>('close')
+export default function CinemaShow({ cinemas, movies }: CinemaShowProps) {
+    console.log(movies)
+
     const [date, setDate] = useState<Date | undefined>(undefined)
     const calendarRef = useRef<FullCalendar>(null)
     const [currentCinema, setCurrentCinema] = useState<string | null>(null)
@@ -38,7 +56,6 @@ export default function CinemaShow({ cinemas }: CinemaShowProps) {
     } = useSWR(currentCinema ?? null, getCinemaShows, {
         shouldRetryOnError: false,
     })
-    const handleToggle = () => setIsOpen(isOpen === 'open' ? 'close' : 'open')
     const toggleSidebar = () => {
         const calendarApi = calendarRef.current?.getApi()
         setTimeout(() => calendarApi?.updateSize(), 200)
@@ -68,13 +85,46 @@ export default function CinemaShow({ cinemas }: CinemaShowProps) {
                     </SidebarTrigger>
                     <span>Shows</span>
                 </div>
-                <div className=""></div>
+                <div className="">
+                    <Dialog>
+                        <DialogTrigger>Open</DialogTrigger>
+                        <DialogContent className="h-[calc(100vh_-_200px)] max-w-4xl">
+                            <DialogHeader>
+                                <DialogTitle>
+                                    Are you absolutely sure?
+                                </DialogTitle>
+                                <DialogDescription className="flex">
+                                    <div className="w-3/4"></div>
+                                    <div className="w-1/4">
+                                        {movies.map((movie) => {
+                                            return movie.formats.map(
+                                                (format) => {
+                                                    return (
+                                                        <div
+                                                            key={`${movie.id}-${format.id}`}
+                                                            className="flex gap-2 py-2"
+                                                        >
+                                                            <div className="">
+                                                                {movie.name}
+                                                            </div>
+                                                            <div className="">
+                                                                {format.caption}{' '}
+                                                                {format.version}
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                }
+                                            )
+                                        })}
+                                    </div>
+                                </DialogDescription>
+                            </DialogHeader>
+                        </DialogContent>
+                    </Dialog>
+                </div>
             </div>
             <div className="relative h-[calc(100vh_-_4.25rem)]">
                 <div className="flex h-full flex-col">
-                    <div className="">
-                        <Button onClick={handleToggle}>Toggle</Button>
-                    </div>
                     <div className="flex h-full justify-between">
                         <div className="w-1/6">
                             <Select

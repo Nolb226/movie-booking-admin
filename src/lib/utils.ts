@@ -121,3 +121,48 @@ export const formatDuration = (duration: number): string => {
     const minutes = duration % 60
     return `${hours}h ${minutes}m`
 }
+
+export function objectToFormData(obj: { [key: string]: any }): FormData {
+    const formData = new FormData()
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            if (Array.isArray(obj[key])) {
+                obj[key].forEach((item: any, index: number) => {
+                    formData.append(`${key}[${index}]`, item)
+                })
+            } else {
+                formData.append(key, obj[key])
+            }
+        }
+    }
+    return formData
+}
+
+export function formatCurrency(currency: number) {
+    const { format } = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    })
+    return format(currency)
+}
+
+export function formatStartTime(startTime: string) {
+    return startTime.split(':').slice(0, 2).join(':')
+}
+
+export function formatTime(time: string) {
+    const { format } = new Intl.DateTimeFormat('vi-VN', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+    })
+    return format(new Date(time))
+}
+
+export const formatDateWeekday = (day: string): string => {
+    const { format } = new Intl.DateTimeFormat('en-US', {
+        weekday: 'long',
+    })
+    return format(new Date(day))
+}

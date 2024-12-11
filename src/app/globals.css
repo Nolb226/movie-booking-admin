@@ -6,6 +6,49 @@
     --background: lch(2.467% 0 272 / 1);
     --foreground: white;
     --fc-border-color: #333537;
+    --mt-overlay: rgba(31, 32, 35, 0.75);
+    --mt-transparent-foreground: rgba(255, 255, 255, 0.4);
+    --mt-bg-secondary: rgba(31, 32, 35, 0.8);
+    --mt-code-background: #ffffff13;
+    --mt-code-color: #2c2e33;
+    --mt-secondary: #595a5c;
+    --mt-pre-background: #080808;
+    --mt-pre-border: #23252a;
+    --mt-pre-color: #e3e4e6;
+    --mt-hr: #26282d;
+    --mt-drag-handle-hover: #969799;
+
+    --mt-accent-bold-blue: #85b8ff;
+    --mt-accent-bold-teal: #9dd9ee;
+    --mt-accent-bold-green: #7ee2b8;
+    --mt-accent-bold-orange: #fec195;
+    --mt-accent-bold-red: #fd9891;
+    --mt-accent-bold-purple: #b8acf6;
+
+    --mt-accent-gray: #738496;
+    --mt-accent-blue: #388bff;
+    --mt-accent-teal: #42b2d7;
+    --mt-accent-green: #2abb7f;
+    --mt-accent-orange: #a54800;
+    --mt-accent-red: #e2483d;
+    --mt-accent-purple: #8f7ee7;
+
+    --mt-accent-blue-subtler: #09326c;
+    --mt-accent-teal-subtler: #164555;
+    --mt-accent-green-subtler: #164b35;
+    --mt-accent-yellow-subtler: #533f04;
+    --mt-accent-red-subtler: #5d1f1a;
+    --mt-accent-purple-subtler: #352c63;
+
+    --hljs-string: #da936b;
+    --hljs-title: #f1d59d;
+    --hljs-comment: #aaaaaa;
+    --hljs-keyword: #6699cc;
+    --hljs-attr: #90cae8;
+    --hljs-literal: #f2777a;
+    --hljs-name: #5fc0a0;
+    --hljs-selector-tag: #e8c785;
+    --hljs-number: #b6e7b6;
 }
 
 body {
