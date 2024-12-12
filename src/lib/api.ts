@@ -75,8 +75,7 @@ const baseFetch = <T>(
                     cache: 'no-cache',
                     ...options,
                 } as RequestInit)
-                switch (
-                    response.status
+                switch (response.status) {
                     // case 404:
                     //     notFound()
                     // case 401: {
@@ -84,7 +83,9 @@ const baseFetch = <T>(
                     //     // redirect('/login')
                     //     // break
                     // }
-                ) {
+
+                    default:
+                        console.log(response.status)
                 }
 
                 if (response.status === 204) {

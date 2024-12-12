@@ -54,3 +54,10 @@ export type UpdateMovieBody = {
     formats: number[]
     status: number
 }
+
+export type MovieShow = {
+    id: string
+    format: MovieFormat
+    name: string
+    priority: number
+}

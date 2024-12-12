@@ -49,3 +49,15 @@ export const postCinema = (data: AddCinemaBody) => {
 export const getCinemaShows = (id: string) => {
     return get<ShowsByCinema>(END_POINTS.CINEMA.SHOWS(id))
 }
+
+export const postCinemaShows = (id: string, body: any) => {
+    console.log(body)
+
+    return post(END_POINTS.CINEMA.SHOWS_LIST, {
+        body: {
+            cinemaId: id,
+            movies: body.movies,
+            date: body.date,
+        },
+    })
+}

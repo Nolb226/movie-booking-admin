@@ -16,6 +16,7 @@ export const END_POINTS = {
         HALL_DETAIL: (id: number) => `/cinemas/hall/${id}`,
         ADD_HALL: (id: string) => `/cinemas/${id}/hall`,
         SHOWS: (id: string) => `/cinemas/${id}/admin`,
+        SHOWS_LIST: '/showtimes',
     },
     MOVIE: {
         LIST: '/movies',

@@ -1,8 +1,8 @@
 'use server'
 
 import { AddCinemaSchema } from '@/lib/validations/cinema'
-import { AddCinemaBody } from '@/model/cinema'
-import { postCinema, postHall } from '@/service/cinema'
+import { AddCinemaBody, FillShowBody } from '@/model/cinema'
+import { postCinema, postCinemaShows, postHall } from '@/service/cinema'
 import { redirect } from 'next/navigation'
 
 // import { post } from '@/lib/api'
@@ -65,4 +65,13 @@ export const addHallAction = async (cinemaId: string, objData: any) => {
         console.log(error)
     }
     redirect(`/cinema/${cinemaId}`)
+}
+
+export const autoFillShow = async (data: FillShowBody) => {
+    try {
+        const test = await postCinemaShows(data.cinemaId, data)
+        console.log(test)
+    } catch (error) {
+        console.log(error)
+    }
 }

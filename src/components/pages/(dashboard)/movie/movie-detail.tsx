@@ -109,8 +109,6 @@ export default function MovieDetail({
         },
     })
 
-    console.log(form.formState.errors)
-
     const {
         append: appendGenres,
         remove: removeGenres,
@@ -128,6 +126,7 @@ export default function MovieDetail({
         control: form.control,
         name: 'formats',
     })
+    const trailer = form.watch('trailer')
 
     return (
         <Form {...form}>
@@ -262,14 +261,30 @@ export default function MovieDetail({
                             <div className="relative bg-neutral-950 p-2">
                                 <div className="absolute left-2 right-2 top-2 flex items-center gap-2 border-b border-zinc-800 bg-neutral-950 pb-2 pr-2 text-xs font-semibold text-[lch(63.975_1.933_272)]">
                                     <span>Trailer</span>
-                                    <Input
-                                        value={movie.trailer}
-                                        className="h-fit py-0.5 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                    <FormField
+                                        name="trailer"
+                                        control={form.control}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        // className="rounded-none border-0 border-b-2 border-gray-400 bg-transparent text-2xl focus-visible:ring-0"
+                                                        // defaultValue={movie.name}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
                                 </div>
                                 <iframe
                                     className="aspect-video h-full w-full rounded-md border border-zinc-800 bg-neutral-950 object-cover"
-                                    src="https://www.youtube.com/embed/XC3ftnZ1WYk"
+                                    src={
+                                        trailer.slice(0, 24) +
+                                        'embed/' +
+                                        trailer.slice(32)
+                                    }
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                     referrerPolicy="strict-origin-when-cross-origin"
                                     allowFullScreen

@@ -1,4 +1,4 @@
-import { Movie, MovieFormat } from './movie'
+import { Movie, MovieFormat, MovieShow } from './movie'
 
 export type City = {
     id: string
@@ -90,4 +90,14 @@ export type AddCinemaBody = {
     address: string
     hotline: string
     description: string
+}
+
+export type FillShowBody = {
+    cinemaId: string
+    movies: {
+        id: string
+        formatId: number
+        priority: number
+    }[]
+    date: Date
 }
